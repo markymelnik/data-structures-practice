@@ -96,3 +96,47 @@ class Queue {
 }
 
 const queue = new Queue();
+
+//
+// Linked List
+//
+
+class Node {
+  constructor(element) {
+    this.element = element;
+    this.next = null;
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null;
+    this.size = 0;
+  }
+
+  append(element) {
+    let newNode = new Node(element);
+
+    if (!this.head) {
+      this.head = newNode;
+    } else {
+      let tail = this.head;
+      while (tail.next) {
+        tail = tail.next;
+      }
+      tail.next = newNode;
+    }
+    this.size++;
+  }
+
+  prepend(element) {
+    let newNode = new Node(element);
+
+    newNode.next = this.head;
+    this.head = newNode;
+
+    this.size++;
+  }
+}
+
+const linkedList = new LinkedList();
