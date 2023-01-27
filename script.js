@@ -238,6 +238,18 @@ class LinkedList {
     return null;
   }
 
+  toString() {
+
+    let current = this.head;
+    let string = '';
+
+    while (current) {
+      string += `( ${current.element} ) -> `;
+      current = current.next;
+    }
+    string += `null`;
+    output.textContent = string;
+  }
 }
 
 const list = new LinkedList();
