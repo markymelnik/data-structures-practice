@@ -184,6 +184,64 @@ class LinkedList {
     this.size--;
     return this.head;
   }
+
+  shift() {
+    if (!this.head) {
+      return;
+    }
+    this.head = this.head.next;
+    this.size--;
+    return this.head;
+  }
+
+  at(index) {
+
+    let current = this.head;
+    let count = 0;
+
+    while (current) {
+      if (count === index){
+        return current;
+      }
+      count++;
+      current = current.next;
+      
+    }
+    return null;
+  }
+
+  contains(element) {
+
+    let current = this.head;
+
+    while (current) {
+      if (current.element === element) {
+        return true;
+      }
+      current = current.next;
+    }
+    return false;
+  }
+
+  indexOf(element) {
+
+    let current = this.head;
+    let count = 0;
+
+    while (current) {
+      if (current.element === element) {
+        return count;
+      }
+      count++;
+      current = current.next;
+    }
+    return null;
+  }
+
 }
 
-const linkedList = new LinkedList();
+const list = new LinkedList();
+list.append(1);
+list.append(2);
+list.append(3);
+list.append(4);
