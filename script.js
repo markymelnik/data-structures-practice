@@ -115,6 +115,7 @@ class LinkedList {
   }
 
   append(element) {
+
     let newNode = new Node(element);
 
     if (!this.head) {
@@ -130,12 +131,58 @@ class LinkedList {
   }
 
   prepend(element) {
+
     let newNode = new Node(element);
 
-    newNode.next = this.head;
-    this.head = newNode;
+    if (!this.head) {
+      this.head = newNode;
+    } else {
+      newNode.next = this.head;
+      this.head = newNode;
+      this.size++;
+    }
+  }
 
-    this.size++;
+  size() {
+    if (!this.head) return 0;
+    return this.size;
+  }
+
+  head() {
+    if (!this.head) return null;
+    return this.head;
+  }
+
+  tail() {
+    if (!this.head) return null;
+
+    let tail = this.head;
+
+    while (tail.next) {
+      tail = tail.next
+    }
+    return tail;
+  }
+
+  pop() {
+    if (!this.head) return null;
+
+    if (!this.head.next) {
+      this.head = null;
+      return;
+    }
+
+    let previous = this.head;
+    let tail = this.head.next;
+
+    while (tail.next) {
+      previous = tail;
+      tail = tail.next;
+    }
+
+    previous.next = null;
+    this.size--;
+    return this.head;
   }
 }
 
