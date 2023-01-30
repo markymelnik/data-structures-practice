@@ -98,7 +98,7 @@ class Queue {
 const queue = new Queue();
 
 //
-// Linked List
+// Linked List Implementation
 //
 
 class Node {
@@ -249,6 +249,64 @@ class LinkedList {
     }
     string += `null`;
     output.textContent = string;
+  }
+
+  insertAt(index, element) {
+
+    let newNode = new Node(element);
+    let current = this.head;
+    let previous = null;
+    let count = 0;
+
+    if (!this.head) {
+      if (index != 0) {
+        return;
+      } else {
+        this.head = newNode;
+      }    
+    }
+
+    if (this.head != null && index == 0) {
+      newNode.next = this.head;
+      this.head = newNode;
+    }
+
+    while (count < index) {
+      previous = current;
+      current = current.next;
+
+      if (current == null) {
+        break;
+      }
+      count++;
+    }
+
+    newNode.next = current;
+    previous.next = newNode;
+    this.size++;
+
+  }
+
+  removeAt(index) {
+
+    let current = this.head;
+    let previous = null;
+    let count = 1;
+
+    if (index < 0) return null;
+    
+    if (index == 0) {
+      this.head = current.next;
+      this.size--;
+    } else {
+      while (count != index) {
+        previous = current;
+        current = current.next;
+        count++;
+      }
+      previous.next = current.next;
+      this.size--;
+    }
   }
 }
 
