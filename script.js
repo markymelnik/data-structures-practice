@@ -294,7 +294,7 @@ class LinkedList {
     let count = 1;
 
     if (index < 0) return null;
-    
+
     if (index == 0) {
       this.head = current.next;
       this.size--;
@@ -308,10 +308,37 @@ class LinkedList {
       this.size--;
     }
   }
+
 }
 
 const list = new LinkedList();
-list.append(1);
-list.append(2);
-list.append(3);
-list.append(4);
+
+class BinaryTreeNode {
+  constructor(element) {
+    this.element = element;
+    this.leftChild = null;
+    this.rightChild = null;
+  }
+}
+
+class BinaryTree {
+  constructor(arr) {
+    const sortedArr = [...new Set(arr)].sort((a, b) => a - b);
+    this.root = this.buildTree(sortedArr);
+  }
+
+  buildTree(sortedArr) {
+    if (sortedArr.length === 0) return null;
+    const midpoint = Math.floor(sortedArr.length / 2);
+    const newNode = new BinaryTreeNode(sortedArr[midpoint]);
+    newNode.leftChild = this.buildTree(sortedArr.slice(0, midpoint));
+    newNode.rightChild = this.buildTree(sortedArr.slice(midpoint + 1));
+    return newNode;
+  }
+}
+
+const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+
+const bt = new BinaryTree(arr);
+bt.buildTree(arr);
+console.log(bt.root);
