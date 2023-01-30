@@ -328,17 +328,67 @@ class BinaryTree {
   }
 
   buildTree(sortedArr) {
-    if (sortedArr.length === 0) return null;
+    if (sortedArr.length === 0) return null; // Base case
     const midpoint = Math.floor(sortedArr.length / 2);
     const newNode = new BinaryTreeNode(sortedArr[midpoint]);
     newNode.leftChild = this.buildTree(sortedArr.slice(0, midpoint));
     newNode.rightChild = this.buildTree(sortedArr.slice(midpoint + 1));
-    return newNode;
+    return newNode; // Returns the level-0 root node of the balanced binary tree.
   }
+
+  insert(element, currentNode = this.root) {
+    if (currentNode === null) return new Node(element);
+    if (currentNode.value === element) return;
+
+    if (element < currentNode.element) {
+      currentNode.leftChild = this.insert(element, currentNode.leftChild);
+    } else {
+      currentNode.rightChild = this.insert(element, currentNode.rightChild)
+    }
+    return currentNode;
+  }
+
+  remove(element, currentNode = this.root) {
+    if (currentNode === null) return currentNode; // Base case.
+
+    if (element < currentNode.element) {
+      currentNode.leftChild = this.remove(element, currentNode.leftChild)
+    } else if (element > currentNode.element) {
+      currentNode.rightChild = this.remove(element, currentNode.rightChild);
+    } else {
+      if (currentNode.leftChild === null) {
+        return currentNode.rightChild;
+      } else if (currentNode.rightChild === null) {
+        return currentNode.leftChild;
+      }
+      currentNode.element = this.inOrderSuccessor(currentNode.rightChild);
+      currentNode.rightChild = this.remove(currentNode.element, currentNode.rightChild);
+    }
+    return currentNode;
+  }
+
+  inOrderSuccessor(currentNode) { // Helper function for this.remove method.
+    let successorNode = currentNode.element;
+    while (currentNode.leftChild != null) {
+      successorNode = currentNode.leftChild.element;
+      currentNode = currentNode.leftChild;
+    }
+    return successorNode;
+  }
+
+  find(element, currentNode = this.root) {
+    if (currentNode === null || currentNode.element === element) return currentNode; // Base case.
+
+    if (element < currentNode.element) {
+      return this.find(element, currentNode.leftChild)
+    } else {
+      return this.find(element, currentNode.rightChild);
+    }
+  }
+  
 }
 
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
-const bt = new BinaryTree(arr);
-bt.buildTree(arr);
-console.log(bt.root);
+const bbt = new BinaryTree(arr);
+bbt.buildTree(arr);
