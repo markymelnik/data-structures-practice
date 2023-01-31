@@ -385,6 +385,26 @@ class BinaryTree {
       return this.find(element, currentNode.rightChild);
     }
   }
+
+  height(currentNode = this.root) {
+    if (currentNode === null) return 0;
+
+    let leftHeight = this.height(currentNode.leftChild);
+    let rightHeight = this.height(currentNode.rightChild);
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  depth(element, currentNode = this.root, edgeCount = 0) {
+    if (currentNode === null) return;
+    if (currentNode.element === element) return edgeCount;
+
+    if (element < currentNode.element) {
+      return this.depth(element, currentNode.leftChild, edgeCount + 1);
+    } else {
+      return this.depth(element, currentNode.rightChild, edgeCount + 1);
+    }
+  }
   
 }
 
