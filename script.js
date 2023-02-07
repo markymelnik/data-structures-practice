@@ -336,6 +336,16 @@ class BinaryTree {
     return newNode; // Returns the level-0 root node of the balanced binary tree.
   }
 
+  displayTree(currentNode = this.root, prefix = '', isLeft = true) {
+    if (currentNode.rightChild !== null) {
+      this.displayTree(currentNode.rightChild, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+    }
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${currentNode.element}`);
+    if (currentNode.leftChild !== null) {
+      this.displayTree(currentNode.leftChild, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+    }
+  }
+
   insert(element, currentNode = this.root) {
     if (currentNode === null) return new Node(element);
     if (currentNode.value === element) return;
@@ -376,6 +386,19 @@ class BinaryTree {
     return successorNode;
   }
 
+  levelOrder(callbackFn) {
+    const queue = [this.root];
+    const levelOrderList = [];
+    while (queue.length > 0) {
+      const currentNode = queue.shift();
+      callbackFn ? callbackFn(currentNode) : levelOrderList.push(currentNode.element);
+
+      const enqueueList = [currentNode.leftChild, currentNode.rightChild].filter((element) => element);
+      queue.push(...enqueueList);
+    }
+    if (levelOrderList.length > 0) return levelOrderList;
+  }
+
   find(element, currentNode = this.root) {
     if (currentNode === null || currentNode.element === element) return currentNode; // Base case.
 
@@ -405,6 +428,8 @@ class BinaryTree {
       return this.depth(element, currentNode.rightChild, edgeCount + 1);
     }
   }
+
+  
   
 }
 
