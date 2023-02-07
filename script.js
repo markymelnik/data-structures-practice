@@ -399,6 +399,36 @@ class BinaryTree {
     if (levelOrderList.length > 0) return levelOrderList;
   }
 
+  preorder(callbackFn, node = this.root, preorderList = []) {
+    if (node === null) return;
+
+    callbackFn ? callbackFn(node) : preorderList.push(node.element);
+    this.preorder(callbackFn, node.leftChild, preorderList);
+    this.preorder(callbackFn, node.rightChild, preorderList);
+
+    if (preorderList.length > 0) return preorderList;
+  }
+
+  inorder(callbackFn, node = this.root, inorderList = []) {
+    if (node === null) return;
+
+    this.inorder(callbackFn, node.leftChild, inorderList);
+    callbackFn ? callbackFn(node) : inorderList.push(node.element);
+    this.inorder(callbackFn, node.rightChild, inorderList);
+
+    if (inorderList.length > 0) return inorderList;
+  }
+
+  postorder(callbackFn, node = this.root, postorderList = []) {
+    if (node === null) return;
+
+    this.postorder(callbackFn, node.leftChild, postorderList,);
+    this.postorder(callbackFn, node.rightChild, postorderList);
+    callbackFn ? callbackFn(node) : postorderList.push(node.element);
+
+    if (postorderList.length > 0) return postorderList;
+  }
+
   find(element, currentNode = this.root) {
     if (currentNode === null || currentNode.element === element) return currentNode; // Base case.
 
