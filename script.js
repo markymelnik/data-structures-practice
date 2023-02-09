@@ -399,32 +399,32 @@ class BinaryTree {
     if (levelOrderList.length > 0) return levelOrderList;
   }
 
-  preorderTreeWalk(callbackFn, node = this.root, preorderList = []) { // Returns root key, left subtree keys, and right subtree keys in that order.
-    if (node === null) return;
+  preorderTreeWalk(currentNode = this.root, preorderList = []) { // Returns root key, left subtree keys, and right subtree keys in that order.
+    if (currentNode === null) return;
 
-    callbackFn ? callbackFn(node) : preorderList.push(node.element);
-    this.preorder(callbackFn, node.leftChild, preorderList);
-    this.preorder(callbackFn, node.rightChild, preorderList);
+    preorderList.push(currentNode.element);
+    this.preorderTreeWalk(currentNode.leftChild, preorderList);
+    this.preorderTreeWalk(currentNode.rightChild, preorderList);
 
     if (preorderList.length > 0) return preorderList;
   }
 
-  inorderTreeWalk(callbackFn, node = this.root, inorderList = []) { // Returns left subtree keys, root key, and right subtree keys in that order.
-    if (node === null) return;
+  inorderTreeWalk(currentNode = this.root, inorderList = []) { // Returns left subtree keys, root key, and right subtree keys in that order.
+    if (currentNode === null) return;
 
-    this.inorder(callbackFn, node.leftChild, inorderList);
-    callbackFn ? callbackFn(node) : inorderList.push(node.element);
-    this.inorder(callbackFn, node.rightChild, inorderList);
+    this.inorderTreeWalk(currentNode.leftChild, inorderList);
+    inorderList.push(currentNode.element);
+    this.inorderTreeWalk(currentNode.rightChild, inorderList);
 
     if (inorderList.length > 0) return inorderList;
   }
 
-  postorderTreeWalk(callbackFn, node = this.root, postorderList = []) { // Returns left subtree keys, right subtree keys, and root key, in that order.
-    if (node === null) return;
+  postorderTreeWalk(currentNode = this.root, postorderList = []) { // Returns left subtree keys, right subtree keys, and root key, in that order.
+    if (currentNode === null) return;
 
-    this.postorder(callbackFn, node.leftChild, postorderList,);
-    this.postorder(callbackFn, node.rightChild, postorderList);
-    callbackFn ? callbackFn(node) : postorderList.push(node.element);
+    this.postorderTreeWalk(currentNode.leftChild, postorderList);
+    this.postorderTreeWalk(currentNode.rightChild, postorderList);
+    postorderList.push(currentNode.element);
 
     if (postorderList.length > 0) return postorderList;
   }
