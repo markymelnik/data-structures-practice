@@ -313,6 +313,10 @@ class LinkedList {
 
 const list = new LinkedList();
 
+//
+// Binary Tree Implementation
+//
+
 class BinaryTreeNode {
   constructor(element) {
     this.element = element;
@@ -328,7 +332,7 @@ class BinaryTree {
   }
 
   buildTree(sortedArr) {
-    if (sortedArr.length === 0) return null; // Base case
+    if (sortedArr.length === 0) return null; // Base case.
     const midpoint = Math.floor(sortedArr.length / 2);
     const newNode = new BinaryTreeNode(sortedArr[midpoint]);
     newNode.leftChild = this.buildTree(sortedArr.slice(0, midpoint));
@@ -336,7 +340,7 @@ class BinaryTree {
     return newNode; // Returns the level-0 root node of the balanced binary tree.
   }
 
-  displayTree(currentNode = this.root, prefix = '', isLeft = true) {
+  displayTree(currentNode = this.root, prefix = '', isLeft = true) { // Method provided by theOdinProject.
     if (currentNode.rightChild !== null) {
       this.displayTree(currentNode.rightChild, `${prefix}${isLeft ? '│   ' : '    '}`, false);
     }
@@ -346,38 +350,41 @@ class BinaryTree {
     }
   }
 
-  insert(element, currentNode = this.root) {
-    if (currentNode === null) return new Node(element);
-    if (currentNode.value === element) return;
+  insert(element, currentNode = this.root) { // Takes the element to be inserted and current node as parameters.
 
-    if (element < currentNode.element) {
-      currentNode.leftChild = this.insert(element, currentNode.leftChild);
-    } else {
-      currentNode.rightChild = this.insert(element, currentNode.rightChild)
+    const newNode = new BinaryTreeNode(element); // Initializes a new node whose element is the paramter element.
+
+    if (currentNode === null) return newNode; // Returns the new node if the root is empty.
+    if (newNode.element === currentNode.element) return; // Returns the new node if the tree traversal reaches an invalid node.
+
+    if (newNode.element < currentNode.element) { // If the parameter element is less than the element in the current node...
+      currentNode.leftChild = this.insert(newNode.element, currentNode.leftChild); // ...recrusively call the insert method on that node's left chil...
+    } else { // ...else the parameter element is greater than the element in the current node...
+      currentNode.rightChild = this.insert(newNode.element, currentNode.rightChild); // ...recursively call the insert method on that node's right child.
     }
-    return currentNode;
+    return currentNode; // Returns the new node in its correct position at the bottom level of the binary tree. 
   }
 
   remove(element, currentNode = this.root) {
     if (currentNode === null) return currentNode; // Base case.
 
-    if (element < currentNode.element) {
-      currentNode.leftChild = this.remove(element, currentNode.leftChild)
-    } else if (element > currentNode.element) {
-      currentNode.rightChild = this.remove(element, currentNode.rightChild);
-    } else {
-      if (currentNode.leftChild === null) {
-        return currentNode.rightChild;
-      } else if (currentNode.rightChild === null) {
-        return currentNode.leftChild;
-      }
-      currentNode.element = this.inOrderSuccessor(currentNode.rightChild);
-      currentNode.rightChild = this.remove(currentNode.element, currentNode.rightChild);
+    if (element < currentNode.element) { // If the parameter element is less than the current element...
+      currentNode.leftChild = this.remove(element, currentNode.leftChild); // ...call the remove method recursively and go down the left subtree...
+    } else if (element > currentNode.element) { // ...else if the parameter element is greater than the current element...
+      currentNode.rightChild = this.remove(element, currentNode.rightChild); // ...call the remove method recursively and go down the right subtree...
+    } else { // ...else the parameter element is the same as the current element. In this case...
+      if (currentNode.leftChild === null) { // ...if the current node has no left child...
+        return currentNode.rightChild; // ...return the right node...
+      } else if (currentNode.rightChild === null) { // ...else if the current node has no right child...
+        return currentNode.leftChild; // ...return the left node...
+      } // ...else the node has two children...
+      currentNode.element = this.inorderSuccessor(currentNode.rightChild); // ...assign the inorder successor to the current node element...
+      currentNode.rightChild = this.remove(currentNode.element, currentNode.rightChild); // ...and delete the inorder successor.
     }
-    return currentNode;
+    return currentNode; // Returns the node in its correct position.
   }
 
-  inOrderSuccessor(currentNode) { // Helper function for this.remove method.
+  inorderSuccessor(currentNode) { // Helper function for the remove method.
     let successorNode = currentNode.element;
     while (currentNode.leftChild != null) {
       successorNode = currentNode.leftChild.element;
@@ -446,16 +453,16 @@ class BinaryTree {
     return currentNode; // When the while loop exits, signifying that either the element exists OR it does not, return the node containing that element or null, respectively.
   }
 
-  minNode(currentNode = this.root) {
+  minNode(currentNode = this.root) { // Assuming the binary search tree property is satsfied.
     while (currentNode.leftChild != null) { // While the left child of the current node exists...
       currentNode = currentNode.leftChild; // ...assign the left child of that node to the current node.
     }
     return currentNode; // Exit while loop when the current node has no left child. Logically, this current node contains the smallest element.
   }
 
-  maxNode(currentNode = this.root) { // While the right child of the current node exists...
-    while (currentNode.rightChild != null) { // ...assign the right child of that node to the current node.
-      currentNode = currentNode.rightChild;
+  maxNode(currentNode = this.root) { // Assuming the binary search tree property is satisfied.
+    while (currentNode.rightChild != null) { // While the right child of the current node exists...
+      currentNode = currentNode.rightChild; // ...assign the right child of that node to the current node.
     }
     return currentNode; // Exit while loop when the current nodeh as no right child. Logically, this current node contains the largest element.
   }
@@ -487,4 +494,3 @@ class BinaryTree {
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const bbt = new BinaryTree(arr);
-bbt.buildTree(arr);
