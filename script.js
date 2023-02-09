@@ -446,6 +446,20 @@ class BinaryTree {
     return currentNode; // When the while loop exits, signifying that either the element exists OR it does not, return the node containing that element or null, respectively.
   }
 
+  minNode(currentNode = this.root) {
+    while (currentNode.leftChild != null) { // While the left child of the current node exists...
+      currentNode = currentNode.leftChild; // ...assign the left child of that node to the current node.
+    }
+    return currentNode; // Exit while loop when the current node has no left child. Logically, this current node contains the smallest element.
+  }
+
+  maxNode(currentNode = this.root) { // While the right child of the current node exists...
+    while (currentNode.rightChild != null) { // ...assign the right child of that node to the current node.
+      currentNode = currentNode.rightChild;
+    }
+    return currentNode; // Exit while loop when the current nodeh as no right child. Logically, this current node contains the largest element.
+  }
+
   height(currentNode = this.root) {
     if (currentNode === null) return 0;
 
