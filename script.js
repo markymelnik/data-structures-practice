@@ -399,7 +399,7 @@ class BinaryTree {
     if (levelOrderList.length > 0) return levelOrderList;
   }
 
-  preorder(callbackFn, node = this.root, preorderList = []) {
+  preorderTreeWalk(callbackFn, node = this.root, preorderList = []) { // Returns root key, left subtree keys, and right subtree keys in that order.
     if (node === null) return;
 
     callbackFn ? callbackFn(node) : preorderList.push(node.element);
@@ -409,7 +409,7 @@ class BinaryTree {
     if (preorderList.length > 0) return preorderList;
   }
 
-  inorder(callbackFn, node = this.root, inorderList = []) {
+  inorderTreeWalk(callbackFn, node = this.root, inorderList = []) { // Returns left subtree keys, root key, and right subtree keys in that order.
     if (node === null) return;
 
     this.inorder(callbackFn, node.leftChild, inorderList);
@@ -419,7 +419,7 @@ class BinaryTree {
     if (inorderList.length > 0) return inorderList;
   }
 
-  postorder(callbackFn, node = this.root, postorderList = []) {
+  postorderTreeWalk(callbackFn, node = this.root, postorderList = []) { // Returns left subtree keys, right subtree keys, and root key, in that order.
     if (node === null) return;
 
     this.postorder(callbackFn, node.leftChild, postorderList,);
@@ -429,14 +429,21 @@ class BinaryTree {
     if (postorderList.length > 0) return postorderList;
   }
 
-  find(element, currentNode = this.root) {
-    if (currentNode === null || currentNode.element === element) return currentNode; // Base case.
+  recursiveFind(element, currentNode = this.root) {
+    if (currentNode.element === element || currentNode === null) return currentNode; // Base case. Continue calling the find method on the correct subtrees until the node containing (or not containing) that element is returned.  If the current element matches the parameter element that is to be found, return the node containing that element. If the element does not exist, return null.
 
-    if (element < currentNode.element) {
-      return this.find(element, currentNode.leftChild)
-    } else {
-      return this.find(element, currentNode.rightChild);
+    if (element < currentNode.element) { // If the parameter element is less than the current, call the find method recursively on the left subtree.
+      return this.recursiveFind(element, currentNode.leftChild)
+    } else { // Else call the find method recursively on the right subtree.
+      return this.recursiveFind(element, currentNode.rightChild);
     }
+  }
+
+  iterativeFind(element, currentNode = this.root) { 
+    while (currentNode.element !== element && currentNode != null) { // While the current element is not equal to the parameter element AND it is a valid element...
+      element < currentNode.element ? currentNode = currentNode.leftChild : currentNode = currentNode.rightChild; // ..ff the parameter element is less than the element in the current node, assign the left child of that node as the new current node which will undergo the same comparison; else, assign the right child of that node as the new current node which will undergo the same comparison.
+    }
+    return currentNode; // When the while loop exits, signifying that either the element exists OR it does not, return the node containing that element or null, respectively.
   }
 
   height(currentNode = this.root) {
