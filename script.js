@@ -352,7 +352,7 @@ class BinaryTree {
 
   insert(element, currentNode = this.root) { // Takes the element to be inserted and current node as parameters.
 
-    const newNode = new BinaryTreeNode(element); // Initializes a new node whose element is the paramter element.
+    const newNode = new BinaryTreeNode(element); // Initializes a new node whose element is the parameter element.
 
     if (currentNode === null) return newNode; // Returns the new node if the root is empty.
     if (newNode.element === currentNode.element) return; // Returns the new node if the tree traversal reaches an invalid node.
@@ -487,7 +487,16 @@ class BinaryTree {
     }
   }
 
-  
+  isBalanced(currentNode = this.root) {
+    if (currentNode === null) return true;
+    const heightDifference = Math.abs(this.height(currentNode.leftChild) - this.height(currentNode.rightChild));
+    return (heightDifference <= 1 && this.isBalanced(currentNode.leftChild) && this.isBalanced(currentNode.rightChild));
+  }
+
+  rebalance() {
+    const inorderList = this.inorderTreeWalk();
+    this.root = this.buildTree(inorderList);
+  }
   
 }
 
